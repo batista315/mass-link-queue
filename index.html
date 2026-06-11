@@ -1,0 +1,1008 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Mass Link Queue</title>
+  <meta name="theme-color" content="#0f1115" />
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #0f1115;
+      --panel: #171a21;
+      --panel2: #20242d;
+      --text: #f3f5f7;
+      --muted: #aeb6c2;
+      --border: #303642;
+      --accent: #4aa3ff;
+      --accent2: #8b5cf6;
+      --danger: #ff5c7a;
+      --good: #58d68d;
+      --warn: #ffd166;
+      --radius: 18px;
+    }
+    * { box-sizing: border-box; }
+    html { -webkit-text-size-adjust: 100%; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: radial-gradient(circle at top, #1a2231 0%, var(--bg) 46%);
+      color: var(--text);
+      min-height: 100vh;
+      padding: env(safe-area-inset-top) 14px env(safe-area-inset-bottom);
+    }
+    .wrap { max-width: 760px; margin: 0 auto; padding: 16px 0 32px; }
+    h1 { margin: 0; font-size: 30px; line-height: 1.05; letter-spacing: -.04em; }
+    .subtitle { color: var(--muted); margin: 8px 0 14px; font-size: 14px; line-height: 1.35; }
+    .badgeRow { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0 0; }
+    .pill {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 10px; border-radius: 999px;
+      background: rgba(32,36,45,.9); border: 1px solid var(--border);
+      color: var(--muted); font-size: 12px; line-height: 1;
+    }
+    .card {
+      background: rgba(23,26,33,.96);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px;
+      margin: 12px 0;
+      box-shadow: 0 10px 30px rgba(0,0,0,.35);
+      backdrop-filter: blur(12px);
+    }
+    .top { display: flex; justify-content: space-between; align-items: flex-end; gap: 12px; margin-bottom: 10px; }
+    .big { font-size: 29px; font-weight: 850; letter-spacing: -.04em; }
+    .small { color: var(--muted); font-size: 13px; line-height: 1.35; }
+    .bar { height: 14px; background: #0b0d12; border: 1px solid var(--border); border-radius: 999px; overflow: hidden; }
+    .fill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--accent), var(--accent2)); transition: width .18s ease; }
+    .stats { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; margin-top: 12px; }
+    .stat { background: var(--panel2); border: 1px solid var(--border); border-radius: 14px; padding: 10px; }
+    .stat b { display: block; font-size: 20px; line-height: 1.1; margin-bottom: 3px; }
+    .stat span { color: var(--muted); font-size: 12px; }
+    .linkbox {
+      background: #0b0d12;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 12px;
+      word-break: break-all;
+      min-height: 48px;
+      margin: 12px 0;
+      font-size: 14px;
+      line-height: 1.35;
+      color: #d8dee8;
+      white-space: pre-wrap;
+    }
+    button, textarea, input, select { font: inherit; }
+    button {
+      width: 100%;
+      min-height: 52px;
+      border: 0;
+      border-radius: 16px;
+      background: var(--panel2);
+      color: var(--text);
+      font-weight: 760;
+      font-size: 16px;
+      padding: 12px 14px;
+      margin-top: 10px;
+      -webkit-tap-highlight-color: transparent;
+    }
+    button:disabled { opacity: .42; }
+    button:active:not(:disabled) { transform: translateY(1px); opacity: .88; }
+    .primary { min-height: 72px; font-size: 22px; background: linear-gradient(135deg, #198cff, #7c3aed); }
+    .good { background: rgba(88,214,141,.18); border: 1px solid rgba(88,214,141,.35); }
+    .warn { background: rgba(255,209,102,.16); border: 1px solid rgba(255,209,102,.35); }
+    .danger { background: rgba(255,92,122,.16); border: 1px solid rgba(255,92,122,.36); }
+    .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+    textarea {
+      width: 100%;
+      min-height: 180px;
+      resize: vertical;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: #0b0d12;
+      color: var(--text);
+      padding: 12px;
+      line-height: 1.35;
+      outline: none;
+      margin-top: 10px;
+      white-space: pre;
+      overflow-wrap: normal;
+      overflow-x: auto;
+    }
+    input[type="file"], input[type="number"] {
+      width: 100%;
+      background: #0b0d12;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 12px;
+      color: var(--text);
+      margin-top: 10px;
+      min-height: 52px;
+    }
+    input[type="file"] { color: var(--muted); }
+    details { margin-top: 4px; }
+    summary { cursor: pointer; font-weight: 850; padding: 8px 0; list-style: none; }
+    summary::-webkit-details-marker { display:none; }
+    label.row {
+      display: flex; justify-content: space-between; align-items: center; gap: 12px;
+      background: var(--panel2); border: 1px solid var(--border); border-radius: 14px;
+      padding: 12px; margin-top: 10px;
+    }
+    input[type=checkbox] { width: 24px; height: 24px; accent-color: var(--accent); flex: 0 0 auto; }
+    .modePanel {
+      display: none;
+      border: 1px solid rgba(74,163,255,.35);
+      background: rgba(74,163,255,.08);
+      border-radius: 16px;
+      padding: 12px;
+      margin-top: 10px;
+    }
+    .modePanel.show { display: block; }
+    .toast {
+      position: fixed; left: 14px; right: 14px; bottom: calc(14px + env(safe-area-inset-bottom));
+      max-width: 760px; margin: 0 auto; background: rgba(22,24,31,.98);
+      border: 1px solid var(--border); border-radius: 16px; padding: 12px 14px;
+      transform: translateY(140%); transition: transform .2s ease; z-index: 10;
+      box-shadow: 0 10px 30px rgba(0,0,0,.35);
+      color: var(--text);
+      line-height: 1.35;
+    }
+    .toast.show { transform: translateY(0); }
+    .sep { height: 1px; background: var(--border); margin: 14px 0; }
+    .miniList {
+      max-height: 220px; overflow: auto; background: #0b0d12; border: 1px solid var(--border);
+      border-radius: 14px; padding: 10px; margin-top: 10px; font-size: 13px; line-height: 1.4;
+    }
+    .miniItem { display: grid; grid-template-columns: 48px 1fr; gap: 8px; padding: 6px 0; border-bottom: 1px solid rgba(48,54,66,.5); }
+    .miniItem:last-child { border-bottom: 0; }
+    .num { color: var(--muted); font-variant-numeric: tabular-nums; }
+    .url { word-break: break-all; color: #d8dee8; }
+    .empty { color: var(--muted); padding: 8px 0; }
+    @media (max-width: 460px) {
+      .stats { grid-template-columns: 1fr 1fr; }
+      .grid2, .grid3 { grid-template-columns: 1fr; }
+      h1 { font-size: 28px; }
+      .big { font-size: 27px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>Mass Link Queue</h1>
+      <div class="subtitle">v1.2 — Toggle between single-link mode and batch mode from the main queue panel.</div>
+      <div class="badgeRow">
+        <span class="pill" id="storagePill">Storage: checking…</span>
+        <span class="pill" id="backupPill">No backup yet</span>
+        <span class="pill" id="modePill">Mode: Single</span>
+      </div>
+    </header>
+
+    <section class="card">
+      <div class="top">
+        <div>
+          <div class="big" id="progressText">0 / 0</div>
+          <div class="small" id="progressSub">No queue loaded.</div>
+        </div>
+        <div class="small" id="percentText">0%</div>
+      </div>
+      <div class="bar"><div class="fill" id="fill"></div></div>
+
+      <div class="stats">
+        <div class="stat"><b id="opened">0</b><span>opened</span></div>
+        <div class="stat"><b id="next">0</b><span>next</span></div>
+        <div class="stat"><b id="remaining">0</b><span>remaining</span></div>
+      </div>
+
+      <label class="row">
+        <span class="small"><b>Batch mode</b><br>When on, the main button opens the next X links instead of one link.</span>
+        <input type="checkbox" id="batchMode" />
+      </label>
+
+      <div class="modePanel" id="batchPanel">
+        <div class="small"><b>Batch size</b><br>Desktop browsers handle this best. iPhone Safari may block multiple tabs.</div>
+        <input id="batchSize" type="number" min="1" max="100" step="1" value="5" />
+        <button id="copyBatch">Copy Next Batch</button>
+      </div>
+
+      <div class="linkbox" id="nextUrl">Import links to begin.</div>
+
+      <button class="primary" id="mainOpen">Open Next</button>
+      <div class="grid2">
+        <button id="prev">Previous</button>
+        <button id="undo">Undo Last Open</button>
+      </div>
+      <div class="grid2">
+        <button id="jump">Jump To</button>
+        <button class="warn" id="reset">Reset to 1</button>
+      </div>
+      <div class="grid2">
+        <button id="copyCurrent">Copy Current</button>
+        <button id="saveBackupTop" class="good">Save Backup File</button>
+      </div>
+
+      <label class="row">
+        <span class="small"><b>Open single links in same tab</b><br>Best for iPhone single-link mode. Batch mode always uses new tabs/windows.</span>
+        <input type="checkbox" id="sameTab" checked />
+      </label>
+
+      <label class="row">
+        <span class="small"><b>Backup reminder</b><br>Reminds you every 100 opens to save a backup file.</span>
+        <input type="checkbox" id="backupReminder" checked />
+      </label>
+    </section>
+
+    <section class="card">
+      <details>
+        <summary>Import / Add Links</summary>
+        <div class="small">Paste one link per line. Blank lines are ignored. Append removes exact duplicates automatically.</div>
+        <textarea id="importBox" placeholder="https://x.com/X&#10;https://x.com/Apple&#10;https://www.tiktok.com/@example/video/123"></textarea>
+        <div class="grid2">
+          <button class="good" id="importReset">Import & Reset</button>
+          <button id="append">Append New Only</button>
+        </div>
+        <button id="sample">Load 10 Test X Links</button>
+        <div class="linkbox" id="lastImportStats">No import yet.</div>
+      </details>
+    </section>
+
+    <section class="card">
+      <details>
+        <summary>Current Saved Queue</summary>
+        <div class="small">This is the queue currently saved in your browser. It reloads from storage automatically when you reopen the app.</div>
+        <div class="miniList" id="queuePreview"><div class="empty">No queue loaded.</div></div>
+        <div class="grid2">
+          <button id="copyQueue">Copy Full Queue</button>
+          <button id="exportQueueTxt">Export Queue .txt</button>
+        </div>
+        <button class="warn" id="cleanQueue">Clean Queue: Remove Duplicates</button>
+      </details>
+    </section>
+
+    <section class="card">
+      <details>
+        <summary>Backup / Restore</summary>
+        <div class="small">A backup JSON file contains your full queue, exact position, and settings. Save one occasionally so Safari storage cannot ruin your day.</div>
+        <div class="grid2">
+          <button class="good" id="exportBackup">Save Backup File</button>
+          <button id="copyBackup">Copy Backup Text</button>
+        </div>
+        <textarea id="backupBox" placeholder="Backup JSON appears here, or paste backup JSON here to restore."></textarea>
+        <button class="good" id="restoreBackupText">Restore From Backup Text</button>
+        <div class="sep"></div>
+        <div class="small">Or restore from a saved backup file:</div>
+        <input id="backupFile" type="file" accept="application/json,.json" />
+      </details>
+    </section>
+
+    <section class="card">
+      <details>
+        <summary>History</summary>
+        <div class="small">Last opened links on this device.</div>
+        <div class="miniList" id="historyPreview"><div class="empty">Nothing opened yet.</div></div>
+      </details>
+    </section>
+
+    <section class="card">
+      <details>
+        <summary>Danger Zone</summary>
+        <button class="danger" id="clearAll">Clear Everything</button>
+        <div class="small" style="margin-top:10px;">This clears only this browser’s saved queue. It does not touch any backup files you saved.</div>
+      </details>
+    </section>
+
+    <div class="small">Install: open this page in Safari → Share → Add to Home Screen.</div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+<script>
+(() => {
+  const APP_VERSION = "1.2";
+  const KEY = "massLinkQueue.v2";
+  const SETTINGS_KEY = "massLinkQueue.settings.v2";
+
+  const sampleLinks = [
+    "https://x.com/X",
+    "https://x.com/Apple",
+    "https://x.com/YouTube",
+    "https://x.com/NASA",
+    "https://x.com/Google",
+    "https://x.com/Microsoft",
+    "https://x.com/PlayStation",
+    "https://x.com/Xbox",
+    "https://x.com/IGN",
+    "https://x.com/Wowhead"
+  ];
+
+  let state = {
+    urls: [],
+    index: 0,
+    history: [],
+    lastOpened: null,
+    lastBackupAtIndex: 0,
+    lastBackupAt: null,
+    lastImportStats: null,
+    updatedAt: new Date().toISOString(),
+    version: APP_VERSION
+  };
+
+  let settings = {
+    sameTab: true,
+    backupReminder: true,
+    backupEvery: 100,
+    batchSize: 5,
+    batchMode: false
+  };
+
+  const $ = id => document.getElementById(id);
+
+  function canUseStorage() {
+    try {
+      const k = "__mlq_test__";
+      localStorage.setItem(k, "1");
+      localStorage.removeItem(k);
+      return true;
+    } catch(e) { return false; }
+  }
+
+  function show(msg, ms = 2600) {
+    const t = $("toast");
+    t.textContent = msg;
+    t.classList.add("show");
+    clearTimeout(show.timer);
+    show.timer = setTimeout(() => t.classList.remove("show"), ms);
+  }
+
+  function normalize(line) {
+    let s = String(line || "").trim();
+    if (!s) return "";
+    if (!/^https?:\/\//i.test(s)) s = "https://" + s;
+    return s;
+  }
+
+  function parseLinks(text) {
+    return String(text || "")
+      .split(/\r?\n/)
+      .map(normalize)
+      .filter(Boolean);
+  }
+
+  function canonical(url) {
+    return normalize(url);
+  }
+
+  function uniqueLinksPreserveOrder(links) {
+    const seen = new Set();
+    const unique = [];
+    let duplicates = 0;
+    for (const raw of links) {
+      const url = normalize(raw);
+      if (!url) continue;
+      const key = canonical(url);
+      if (seen.has(key)) duplicates++;
+      else {
+        seen.add(key);
+        unique.push(url);
+      }
+    }
+    return { unique, duplicates };
+  }
+
+  function dedupeAppend(existing, incoming) {
+    const seen = new Set(existing.map(canonical));
+    const added = [];
+    let duplicates = 0;
+    for (const raw of incoming) {
+      const url = normalize(raw);
+      if (!url) continue;
+      const key = canonical(url);
+      if (seen.has(key)) duplicates++;
+      else {
+        seen.add(key);
+        added.push(url);
+      }
+    }
+    return { added, duplicates };
+  }
+
+  function save() {
+    state.updatedAt = new Date().toISOString();
+    state.version = APP_VERSION;
+    localStorage.setItem(KEY, JSON.stringify(state));
+  }
+
+  function saveSettings() {
+    localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
+  }
+
+  function load() {
+    try {
+      const raw = localStorage.getItem(KEY);
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        if (Array.isArray(parsed.urls)) {
+          state = {
+            ...state,
+            ...parsed,
+            urls: parsed.urls.map(normalize).filter(Boolean),
+            index: Math.max(0, Math.min(Number(parsed.index || 0), parsed.urls.length)),
+            history: Array.isArray(parsed.history) ? parsed.history : [],
+            version: APP_VERSION
+          };
+        }
+      }
+    } catch(e) {}
+
+    try {
+      const raw = localStorage.getItem(SETTINGS_KEY);
+      if (raw) settings = { ...settings, ...JSON.parse(raw) };
+    } catch(e) {}
+
+    if (state.index > state.urls.length) state.index = state.urls.length;
+    if (!Array.isArray(state.history)) state.history = [];
+  }
+
+  function fmtDate(iso) {
+    if (!iso) return "No backup yet";
+    try { return new Date(iso).toLocaleString(); } catch(e) { return "Unknown"; }
+  }
+
+  function getBatchSize() {
+    const n = Number($("batchSize").value || settings.batchSize || 5);
+    return Math.max(1, Math.min(100, Math.floor(n || 1)));
+  }
+
+  function getNextBatch() {
+    const size = getBatchSize();
+    return state.urls.slice(state.index, Math.min(state.index + size, state.urls.length));
+  }
+
+  function renderMainLinkBox() {
+    const total = state.urls.length;
+    if (!total) {
+      $("nextUrl").textContent = "Import links to begin.";
+      return;
+    }
+    if (state.index >= total) {
+      $("nextUrl").textContent = "Queue complete.";
+      return;
+    }
+
+    if (settings.batchMode) {
+      const batch = getNextBatch();
+      const start = state.index + 1;
+      const end = state.index + batch.length;
+      $("nextUrl").textContent =
+        `Batch preview: #${start}–#${end}\n\n` +
+        batch.map((u, i) => `#${start + i}: ${u}`).join("\n");
+    } else {
+      $("nextUrl").textContent = state.urls[state.index];
+    }
+  }
+
+  function renderStats() {
+    const total = state.urls.length;
+    const opened = Math.min(state.index, total);
+    const remaining = Math.max(total - opened, 0);
+    const pct = total ? Math.min(opened / total * 100, 100) : 0;
+    const nextNum = total ? Math.min(state.index + 1, total) : 0;
+
+    $("progressText").textContent = `${opened} / ${total}`;
+    $("progressSub").textContent = total ? `Next up: #${state.index < total ? state.index + 1 : total}` : "No queue loaded.";
+    $("percentText").textContent = `${pct.toFixed(total ? 1 : 0)}%`;
+    $("fill").style.width = `${pct}%`;
+    $("opened").textContent = opened;
+    $("next").textContent = nextNum;
+    $("remaining").textContent = remaining;
+
+    $("sameTab").checked = !!settings.sameTab;
+    $("backupReminder").checked = !!settings.backupReminder;
+    $("batchMode").checked = !!settings.batchMode;
+    $("batchSize").value = settings.batchSize || 5;
+    $("batchPanel").classList.toggle("show", !!settings.batchMode);
+    $("mainOpen").textContent = settings.batchMode ? `Open Batch (${getNextBatch().length || getBatchSize()})` : "Open Next";
+    $("copyCurrent").textContent = settings.batchMode ? "Copy Batch" : "Copy Current";
+    $("modePill").textContent = settings.batchMode ? "Mode: Batch" : "Mode: Single";
+
+    renderMainLinkBox();
+
+    $("storagePill").textContent = canUseStorage() ? "Autosave: ready" : "Autosave: blocked";
+    $("backupPill").textContent = state.lastBackupAt
+      ? `Last backup: ${fmtDate(state.lastBackupAt)}`
+      : "No backup yet";
+
+    const canOpen = !!(total && state.index < total);
+    $("mainOpen").disabled = !canOpen;
+    $("copyBatch").disabled = !canOpen;
+    $("prev").disabled = !(total && state.index > 0);
+    $("undo").disabled = !state.lastOpened;
+    $("jump").disabled = !total;
+    $("reset").disabled = !total;
+    $("copyCurrent").disabled = !canOpen;
+    $("cleanQueue").disabled = !total;
+    $("copyQueue").disabled = !total;
+    $("exportQueueTxt").disabled = !total;
+
+    if (state.lastImportStats) {
+      const s = state.lastImportStats;
+      $("lastImportStats").textContent =
+        `${s.mode}\nPasted: ${s.pasted}\nBlank/invalid skipped: ${s.invalid}\nDuplicates skipped: ${s.duplicates}\nActually added: ${s.added}\nQueue size: ${state.urls.length}`;
+    } else {
+      $("lastImportStats").textContent = "No import yet.";
+    }
+  }
+
+  function renderQueuePreview() {
+    const box = $("queuePreview");
+    if (!state.urls.length) {
+      box.innerHTML = '<div class="empty">No queue loaded.</div>';
+      return;
+    }
+
+    const total = state.urls.length;
+    const start = Math.max(0, Math.min(state.index - 8, total - 25));
+    const end = Math.min(total, start + 25);
+
+    let html = "";
+    if (start > 0) html += `<div class="empty">… ${start} earlier links hidden …</div>`;
+
+    for (let i = start; i < end; i++) {
+      const marker = i < state.index ? "✓" : (i === state.index ? "→" : "");
+      html += `<div class="miniItem"><div class="num">${marker} #${i+1}</div><div class="url">${escapeHtml(state.urls[i])}</div></div>`;
+    }
+
+    if (end < total) html += `<div class="empty">… ${total - end} later links hidden …</div>`;
+    box.innerHTML = html;
+  }
+
+  function renderHistory() {
+    const box = $("historyPreview");
+    const hist = state.history || [];
+    if (!hist.length) {
+      box.innerHTML = '<div class="empty">Nothing opened yet.</div>';
+      return;
+    }
+    box.innerHTML = hist.slice(0, 50).map(h =>
+      `<div class="miniItem"><div class="num">#${h.number || "?"}</div><div><div class="url">${escapeHtml(h.url || "")}</div><div class="small">${escapeHtml(fmtDate(h.openedAt))}</div></div></div>`
+    ).join("");
+  }
+
+  function escapeHtml(str) {
+    return String(str).replace(/[&<>"']/g, ch => ({
+      "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;"
+    }[ch]));
+  }
+
+  function render() {
+    renderStats();
+    renderQueuePreview();
+    renderHistory();
+  }
+
+  function importQueue(replace) {
+    const rawText = $("importBox").value;
+    const rawLines = String(rawText || "").split(/\r?\n/);
+    const parsed = parseLinks(rawText);
+    const invalid = rawLines.length - parsed.length;
+
+    if (!parsed.length) return show("Paste at least one link first.");
+
+    if (replace) {
+      if (state.urls.length && !confirm("Replace current queue and reset to link #1?")) return;
+      const result = uniqueLinksPreserveOrder(parsed);
+      state.urls = result.unique;
+      state.index = 0;
+      state.history = [];
+      state.lastOpened = null;
+      state.lastImportStats = {
+        mode: "Import & Reset",
+        pasted: parsed.length,
+        invalid: Math.max(0, invalid),
+        duplicates: result.duplicates,
+        added: result.unique.length
+      };
+      save();
+      render();
+      show(`Imported ${result.unique.length}. Duplicates skipped: ${result.duplicates}.`);
+    } else {
+      const result = dedupeAppend(state.urls, parsed);
+      state.urls = state.urls.concat(result.added);
+      state.lastImportStats = {
+        mode: "Append New Only",
+        pasted: parsed.length,
+        invalid: Math.max(0, invalid),
+        duplicates: result.duplicates,
+        added: result.added.length
+      };
+      save();
+      render();
+      show(`Added ${result.added.length}. Duplicates skipped: ${result.duplicates}.`);
+    }
+  }
+
+  function maybeBackupReminder() {
+    if (!settings.backupReminder) return;
+    if (state.index === 0) return;
+    const every = Number(settings.backupEvery || 100);
+    const last = Number(state.lastBackupAtIndex || 0);
+    if (state.index % every === 0 && state.index !== last) {
+      show(`You opened ${state.index} links. Consider saving a backup file.`, 4600);
+    }
+  }
+
+  function recordOpened(url, number, openedAt) {
+    state.history = [{ url, number, openedAt }, ...(state.history || [])].slice(0, 100);
+  }
+
+  function openNext() {
+    if (!state.urls.length || state.index >= state.urls.length) return;
+    const url = state.urls[state.index];
+    const openedNumber = state.index + 1;
+    const openedAt = new Date().toISOString();
+
+    state.lastOpened = {
+      type: "single",
+      indexBefore: state.index,
+      count: 1,
+      urls: [url],
+      openedAt
+    };
+    recordOpened(url, openedNumber, openedAt);
+    state.index += 1;
+
+    save();
+    render();
+    maybeBackupReminder();
+
+    if (settings.sameTab) {
+      window.location.href = url;
+    } else {
+      const w = window.open(url, "_blank", "noopener,noreferrer");
+      if (!w) show("Popup blocked. Use same-tab mode.");
+    }
+  }
+
+  function openBatch() {
+    if (!state.urls.length || state.index >= state.urls.length) return;
+
+    const batch = getNextBatch();
+    if (!batch.length) return;
+
+    const indexBefore = state.index;
+    const openedAt = new Date().toISOString();
+    let opened = 0;
+
+    for (let i = 0; i < batch.length; i++) {
+      const w = window.open(batch[i], "_blank", "noopener,noreferrer");
+      if (w) {
+        opened++;
+        recordOpened(batch[i], indexBefore + i + 1, openedAt);
+      } else {
+        break;
+      }
+    }
+
+    if (opened === 0) {
+      show("Browser blocked the batch. Allow popups/tabs for this site or use Copy Batch.", 4500);
+      return;
+    }
+
+    state.lastOpened = {
+      type: "batch",
+      indexBefore,
+      count: opened,
+      urls: batch.slice(0, opened),
+      openedAt
+    };
+
+    state.index += opened;
+    save();
+    render();
+    maybeBackupReminder();
+
+    if (opened < batch.length) show(`Opened ${opened}/${batch.length}. Browser blocked the rest.`, 4500);
+    else show(`Opened batch: ${opened} link(s).`);
+  }
+
+  function openMain() {
+    if (settings.batchMode) openBatch();
+    else openNext();
+  }
+
+  function previous() {
+    if (state.index <= 0) return show("Already at #1.");
+    state.index -= 1;
+    save();
+    render();
+    show(`Moved back. Next link is #${state.index + 1}.`);
+  }
+
+  function undoLastOpen() {
+    if (!state.lastOpened) return show("Nothing to undo.");
+    state.index = Math.max(0, Math.min(Number(state.lastOpened.indexBefore || 0), state.urls.length));
+    const n = state.index + 1;
+    const count = state.lastOpened.count || 1;
+    state.lastOpened = null;
+    save();
+    render();
+    show(`Undone ${count} open(s). Next link is #${n}.`);
+  }
+
+  function jumpTo() {
+    const total = state.urls.length;
+    if (!total) return;
+    const input = prompt(`Jump to which link? Enter 1-${total}.`, String(Math.min(state.index + 1, total)));
+    if (input === null) return;
+    const n = Number(input);
+    if (!Number.isInteger(n) || n < 1 || n > total) return show(`Enter a whole number from 1 to ${total}.`);
+    state.index = n - 1;
+    state.lastOpened = null;
+    save();
+    render();
+    show(`Jumped. Next link is #${n}.`);
+  }
+
+  function reset() {
+    if (!state.urls.length) return;
+    if (!confirm("Reset progress to link #1?")) return;
+    state.index = 0;
+    state.lastOpened = null;
+    save();
+    render();
+    show("Reset. Next link is #1.");
+  }
+
+  async function copyText(text, msg) {
+    try {
+      await navigator.clipboard.writeText(text);
+      show(msg);
+    } catch(e) {
+      $("backupBox").value = text;
+      $("backupBox").focus();
+      $("backupBox").select();
+      show("Copy blocked. Text placed in backup box.");
+    }
+  }
+
+  function copyCurrentOrBatch() {
+    if (!state.urls.length || state.index >= state.urls.length) return;
+    if (settings.batchMode) {
+      const batch = getNextBatch();
+      copyText(batch.join("\n"), `Copied next ${batch.length} link(s).`);
+    } else {
+      copyText(state.urls[state.index], "Current link copied.");
+    }
+  }
+
+  function makeBackup() {
+    return JSON.stringify({
+      app: "Mass Link Queue",
+      version: APP_VERSION,
+      exportedAt: new Date().toISOString(),
+      state,
+      settings
+    }, null, 2);
+  }
+
+  function saveBackupFile() {
+    state.lastBackupAt = new Date().toISOString();
+    state.lastBackupAtIndex = state.index;
+    save();
+    render();
+
+    const finalText = makeBackup();
+    $("backupBox").value = finalText;
+
+    const blob = new Blob([finalText], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    const stamp = new Date().toISOString().slice(0,19).replace(/[:T]/g, "-");
+    a.href = url;
+    a.download = `mass-link-queue-backup-${stamp}.json`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+    show("Backup file created. Save it to Files/iCloud.");
+  }
+
+  function exportQueueTxt() {
+    if (!state.urls.length) return;
+    const text = state.urls.join("\n");
+    const blob = new Blob([text], { type: "text/plain" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    const stamp = new Date().toISOString().slice(0,19).replace(/[:T]/g, "-");
+    a.href = url;
+    a.download = `mass-link-queue-links-${stamp}.txt`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+    show("Queue .txt exported.");
+  }
+
+  function restoreFromObject(parsed) {
+    const incoming = parsed.state || parsed;
+    if (!incoming || !Array.isArray(incoming.urls)) throw new Error("No URLs in backup.");
+    if (state.urls.length && !confirm("Restore this backup and replace your current queue?")) return;
+
+    const urls = incoming.urls.map(normalize).filter(Boolean);
+    state = {
+      ...state,
+      ...incoming,
+      urls,
+      index: Math.max(0, Math.min(Number(incoming.index || 0), urls.length)),
+      history: Array.isArray(incoming.history) ? incoming.history : [],
+      lastOpened: incoming.lastOpened || null,
+      version: APP_VERSION
+    };
+
+    if (parsed.settings) settings = { ...settings, ...parsed.settings };
+    save();
+    saveSettings();
+    render();
+    show(`Restored ${state.urls.length} links at #${Math.min(state.index + 1, state.urls.length || 1)}.`);
+  }
+
+  function restoreBackupText() {
+    try {
+      restoreFromObject(JSON.parse($("backupBox").value));
+    } catch(e) {
+      show("That backup text doesn't look valid.");
+    }
+  }
+
+  function restoreBackupFile(file) {
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      try {
+        $("backupBox").value = String(reader.result || "");
+        restoreFromObject(JSON.parse(String(reader.result || "")));
+      } catch(e) {
+        show("That backup file doesn't look valid.");
+      }
+    };
+    reader.readAsText(file);
+  }
+
+  function cleanQueue() {
+    if (!state.urls.length) return;
+    const oldUrls = state.urls.slice();
+    const nextUrl = oldUrls[state.index] || null;
+
+    const seen = new Set();
+    const unique = [];
+    let duplicates = 0;
+
+    for (const url of oldUrls) {
+      const key = canonical(url);
+      if (seen.has(key)) duplicates++;
+      else {
+        seen.add(key);
+        unique.push(url);
+      }
+    }
+
+    if (!duplicates) return show("No duplicates found.");
+    if (!confirm(`Remove ${duplicates} duplicate link(s) from the current queue?`)) return;
+
+    state.urls = unique;
+
+    let newIndex = 0;
+    const counted = new Set();
+    for (const url of oldUrls.slice(0, state.index)) {
+      const key = canonical(url);
+      if (!counted.has(key)) {
+        counted.add(key);
+        newIndex++;
+      }
+    }
+
+    if (nextUrl) {
+      const pos = state.urls.findIndex(u => canonical(u) === canonical(nextUrl));
+      if (pos >= 0) newIndex = Math.min(newIndex, pos);
+    }
+
+    state.index = Math.max(0, Math.min(newIndex, state.urls.length));
+    state.lastOpened = null;
+    state.lastImportStats = {
+      mode: "Clean Queue",
+      pasted: oldUrls.length,
+      invalid: 0,
+      duplicates,
+      added: state.urls.length
+    };
+
+    save();
+    render();
+    show(`Cleaned queue. Removed ${duplicates} duplicates.`);
+  }
+
+  function clearAll() {
+    if (!confirm("Clear queue and position from this browser? Backup files will not be touched.")) return;
+    localStorage.removeItem(KEY);
+    state = {
+      urls: [],
+      index: 0,
+      history: [],
+      lastOpened: null,
+      lastBackupAtIndex: 0,
+      lastBackupAt: null,
+      lastImportStats: null,
+      updatedAt: new Date().toISOString(),
+      version: APP_VERSION
+    };
+    render();
+    show("Cleared.");
+  }
+
+  $("mainOpen").onclick = openMain;
+  $("prev").onclick = previous;
+  $("undo").onclick = undoLastOpen;
+  $("jump").onclick = jumpTo;
+  $("reset").onclick = reset;
+  $("copyCurrent").onclick = copyCurrentOrBatch;
+  $("copyBatch").onclick = () => {
+    const batch = getNextBatch();
+    if (!batch.length) return;
+    copyText(batch.join("\n"), `Copied next ${batch.length} link(s).`);
+  };
+  $("saveBackupTop").onclick = saveBackupFile;
+
+  $("importReset").onclick = () => importQueue(true);
+  $("append").onclick = () => importQueue(false);
+  $("sample").onclick = () => {
+    $("importBox").value = sampleLinks.join("\n");
+    show("Test links loaded. Tap Import & Reset.");
+  };
+
+  $("copyQueue").onclick = () => copyText(state.urls.join("\n"), "Full queue copied.");
+  $("exportQueueTxt").onclick = exportQueueTxt;
+  $("cleanQueue").onclick = cleanQueue;
+
+  $("sameTab").onchange = e => {
+    settings.sameTab = e.target.checked;
+    saveSettings();
+    show(settings.sameTab ? "Same-tab mode on." : "New-tab mode on.");
+  };
+  $("backupReminder").onchange = e => {
+    settings.backupReminder = e.target.checked;
+    saveSettings();
+    show(settings.backupReminder ? "Backup reminders on." : "Backup reminders off.");
+  };
+  $("batchMode").onchange = e => {
+    settings.batchMode = e.target.checked;
+    saveSettings();
+    render();
+    show(settings.batchMode ? "Batch mode on." : "Single-link mode on.");
+  };
+  $("batchSize").onchange = e => {
+    settings.batchSize = getBatchSize();
+    e.target.value = settings.batchSize;
+    saveSettings();
+    render();
+  };
+  $("batchSize").oninput = e => {
+    settings.batchSize = getBatchSize();
+    saveSettings();
+    renderMainLinkBox();
+    $("mainOpen").textContent = settings.batchMode ? `Open Batch (${getNextBatch().length || getBatchSize()})` : "Open Next";
+  };
+
+  $("exportBackup").onclick = saveBackupFile;
+  $("copyBackup").onclick = () => copyText(makeBackup(), "Backup text copied.");
+  $("restoreBackupText").onclick = restoreBackupText;
+  $("backupFile").onchange = e => restoreBackupFile(e.target.files && e.target.files[0]);
+
+  $("clearAll").onclick = clearAll;
+
+  load();
+  render();
+})();
+</script>
+</body>
+</html>
