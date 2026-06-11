@@ -1,0 +1,427 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Mass Link Queue</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #0f1115;
+      --panel: #171a21;
+      --panel2: #20242d;
+      --text: #f3f5f7;
+      --muted: #aeb6c2;
+      --border: #303642;
+      --accent: #4aa3ff;
+      --danger: #ff5c7a;
+      --good: #58d68d;
+      --warn: #ffd166;
+      --radius: 18px;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #1a2231 0%, var(--bg) 45%);
+      color: var(--text);
+      min-height: 100vh;
+      padding: env(safe-area-inset-top) 14px env(safe-area-inset-bottom);
+    }
+    .wrap { max-width: 720px; margin: 0 auto; padding: 16px 0 28px; }
+    h1 { margin: 0; font-size: 30px; letter-spacing: -.04em; }
+    .subtitle { color: var(--muted); margin: 8px 0 16px; font-size: 14px; line-height: 1.35; }
+    .card {
+      background: rgba(23,26,33,.95);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px;
+      margin: 12px 0;
+      box-shadow: 0 10px 30px rgba(0,0,0,.35);
+    }
+    .top { display: flex; justify-content: space-between; align-items: flex-end; gap: 12px; margin-bottom: 10px; }
+    .big { font-size: 29px; font-weight: 850; letter-spacing: -.04em; }
+    .small { color: var(--muted); font-size: 13px; line-height: 1.35; }
+    .bar { height: 14px; background: #0b0d12; border: 1px solid var(--border); border-radius: 999px; overflow: hidden; }
+    .fill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--accent), #8b5cf6); transition: width .18s ease; }
+    .stats { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; margin-top: 12px; }
+    .stat { background: var(--panel2); border: 1px solid var(--border); border-radius: 14px; padding: 10px; }
+    .stat b { display: block; font-size: 20px; }
+    .stat span { color: var(--muted); font-size: 12px; }
+    .linkbox {
+      background: #0b0d12;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 12px;
+      word-break: break-all;
+      min-height: 48px;
+      margin: 12px 0;
+      font-size: 14px;
+      line-height: 1.35;
+      color: #d8dee8;
+    }
+    button, textarea, input { font: inherit; }
+    button {
+      width: 100%;
+      min-height: 52px;
+      border: 0;
+      border-radius: 16px;
+      background: var(--panel2);
+      color: var(--text);
+      font-weight: 750;
+      font-size: 16px;
+      padding: 12px 14px;
+      margin-top: 10px;
+    }
+    button:disabled { opacity: .42; }
+    button:active:not(:disabled) { transform: translateY(1px); opacity: .88; }
+    .primary { min-height: 70px; font-size: 22px; background: linear-gradient(135deg, #198cff, #7c3aed); }
+    .good { background: rgba(88,214,141,.18); border: 1px solid rgba(88,214,141,.35); }
+    .warn { background: rgba(255,209,102,.16); border: 1px solid rgba(255,209,102,.35); }
+    .danger { background: rgba(255,92,122,.16); border: 1px solid rgba(255,92,122,.36); }
+    .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    textarea {
+      width: 100%;
+      min-height: 180px;
+      resize: vertical;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: #0b0d12;
+      color: var(--text);
+      padding: 12px;
+      line-height: 1.35;
+      outline: none;
+      margin-top: 10px;
+    }
+    details { margin-top: 4px; }
+    summary { cursor: pointer; font-weight: 850; padding: 8px 0; list-style: none; }
+    summary::-webkit-details-marker { display:none; }
+    label.row {
+      display: flex; justify-content: space-between; align-items: center; gap: 12px;
+      background: var(--panel2); border: 1px solid var(--border); border-radius: 14px;
+      padding: 12px; margin-top: 10px;
+    }
+    input[type=checkbox] { width: 24px; height: 24px; accent-color: var(--accent); }
+    .toast {
+      position: fixed; left: 14px; right: 14px; bottom: calc(14px + env(safe-area-inset-bottom));
+      max-width: 720px; margin: 0 auto; background: rgba(22,24,31,.97);
+      border: 1px solid var(--border); border-radius: 16px; padding: 12px 14px;
+      transform: translateY(140%); transition: transform .2s ease; z-index: 10;
+      box-shadow: 0 10px 30px rgba(0,0,0,.35);
+    }
+    .toast.show { transform: translateY(0); }
+    @media (max-width: 420px) { .stats { grid-template-columns: 1fr 1fr; } .grid2 { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Mass Link Queue</h1>
+    <div class="subtitle">Paste links once. Open one at a time. Progress saves automatically on this device.</div>
+
+    <section class="card">
+      <div class="top">
+        <div>
+          <div class="big" id="progressText">0 / 0</div>
+          <div class="small" id="progressSub">No queue loaded.</div>
+        </div>
+        <div class="small" id="percentText">0%</div>
+      </div>
+      <div class="bar"><div class="fill" id="fill"></div></div>
+
+      <div class="stats">
+        <div class="stat"><b id="opened">0</b><span>opened</span></div>
+        <div class="stat"><b id="next">0</b><span>next</span></div>
+        <div class="stat"><b id="remaining">0</b><span>remaining</span></div>
+      </div>
+
+      <div class="linkbox" id="nextUrl">Import links to begin.</div>
+
+      <button class="primary" id="openNext">Open Next</button>
+      <div class="grid2">
+        <button id="prev">Previous</button>
+        <button id="jump">Jump To</button>
+      </div>
+      <div class="grid2">
+        <button class="warn" id="reset">Reset to 1</button>
+        <button id="copyCurrent">Copy Current</button>
+      </div>
+
+      <label class="row">
+        <span class="small"><b>Open in same tab</b><br>Best for iPhone. Saves progress first, then leaves this page.</span>
+        <input type="checkbox" id="sameTab" checked />
+      </label>
+    </section>
+
+    <section class="card">
+      <details open>
+        <summary>Import / Replace Queue</summary>
+        <div class="small">Paste one link per line. Blank lines are ignored.</div>
+        <textarea id="importBox" placeholder="https://x.com/X&#10;https://x.com/Apple&#10;https://www.tiktok.com/@example/video/123"></textarea>
+        <div class="grid2">
+          <button class="good" id="importReset">Import & Reset</button>
+          <button id="append">Append</button>
+        </div>
+        <button id="sample">Load 10 Test X Links</button>
+      </details>
+    </section>
+
+    <section class="card">
+      <details>
+        <summary>Backup / Restore</summary>
+        <div class="small">Use this if you want a portable backup of your queue and exact position.</div>
+        <div class="grid2">
+          <button id="exportBackup">Export Backup</button>
+          <button id="copyBackup">Copy Backup</button>
+        </div>
+        <textarea id="backupBox" placeholder="Backup JSON appears here, or paste a backup here to restore."></textarea>
+        <button class="good" id="restoreBackup">Restore Backup From Box</button>
+      </details>
+    </section>
+
+    <section class="card">
+      <details>
+        <summary>Danger Zone</summary>
+        <button class="danger" id="clearAll">Clear Everything</button>
+      </details>
+    </section>
+
+    <div class="small">After testing: Safari → Share → Add to Home Screen.</div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+<script>
+(() => {
+  const KEY = "massLinkQueue.v2";
+  const SETTINGS_KEY = "massLinkQueue.settings.v2";
+
+  const sampleLinks = [
+    "https://x.com/X",
+    "https://x.com/Apple",
+    "https://x.com/YouTube",
+    "https://x.com/NASA",
+    "https://x.com/Google",
+    "https://x.com/Microsoft",
+    "https://x.com/PlayStation",
+    "https://x.com/Xbox",
+    "https://x.com/IGN",
+    "https://x.com/Wowhead"
+  ];
+
+  let state = { urls: [], index: 0, updatedAt: new Date().toISOString() };
+  let settings = { sameTab: true };
+  const $ = id => document.getElementById(id);
+
+  function show(msg) {
+    const t = $("toast");
+    t.textContent = msg;
+    t.classList.add("show");
+    clearTimeout(show.timer);
+    show.timer = setTimeout(() => t.classList.remove("show"), 2400);
+  }
+
+  function normalize(line) {
+    let s = String(line || "").trim();
+    if (!s) return "";
+    if (!/^https?:\/\//i.test(s)) s = "https://" + s;
+    return s;
+  }
+
+  function parseLinks(text) {
+    return String(text || "").split(/\r?\n/).map(normalize).filter(Boolean);
+  }
+
+  function save() {
+    state.updatedAt = new Date().toISOString();
+    localStorage.setItem(KEY, JSON.stringify(state));
+  }
+
+  function saveSettings() {
+    localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
+  }
+
+  function load() {
+    try {
+      const raw = localStorage.getItem(KEY);
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        if (Array.isArray(parsed.urls)) {
+          state.urls = parsed.urls.map(normalize).filter(Boolean);
+          state.index = Math.max(0, Math.min(Number(parsed.index || 0), state.urls.length));
+          state.updatedAt = parsed.updatedAt || new Date().toISOString();
+        }
+      }
+    } catch(e) {}
+    try {
+      const raw = localStorage.getItem(SETTINGS_KEY);
+      if (raw) settings = { ...settings, ...JSON.parse(raw) };
+    } catch(e) {}
+  }
+
+  function render() {
+    const total = state.urls.length;
+    const opened = Math.min(state.index, total);
+    const remaining = Math.max(total - opened, 0);
+    const pct = total ? Math.min(opened / total * 100, 100) : 0;
+    const nextNum = total ? Math.min(state.index + 1, total) : 0;
+
+    $("progressText").textContent = `${opened} / ${total}`;
+    $("progressSub").textContent = total ? `Next up: #${state.index < total ? state.index + 1 : total}` : "No queue loaded.";
+    $("percentText").textContent = `${pct.toFixed(total ? 1 : 0)}%`;
+    $("fill").style.width = `${pct}%`;
+    $("opened").textContent = opened;
+    $("next").textContent = nextNum;
+    $("remaining").textContent = remaining;
+    $("nextUrl").textContent = total && state.index < total ? state.urls[state.index] : (total ? "Queue complete." : "Import links to begin.");
+    $("sameTab").checked = settings.sameTab;
+
+    $("openNext").disabled = !(total && state.index < total);
+    $("prev").disabled = !(total && state.index > 0);
+    $("jump").disabled = !total;
+    $("reset").disabled = !total;
+    $("copyCurrent").disabled = !(total && state.index < total);
+  }
+
+  function importQueue(replace) {
+    const links = parseLinks($("importBox").value);
+    if (!links.length) return show("Paste at least one link first.");
+    if (replace) {
+      if (state.urls.length && !confirm("Replace current queue and reset to link #1?")) return;
+      state.urls = links;
+      state.index = 0;
+      save();
+      render();
+      show(`Imported ${links.length} links.`);
+    } else {
+      state.urls = state.urls.concat(links);
+      save();
+      render();
+      show(`Appended ${links.length} links.`);
+    }
+  }
+
+  function openNext() {
+    if (!state.urls.length || state.index >= state.urls.length) return;
+    const url = state.urls[state.index];
+    state.index += 1;
+    save();
+    render();
+
+    if (settings.sameTab) {
+      window.location.href = url;
+    } else {
+      const w = window.open(url, "_blank", "noopener,noreferrer");
+      if (!w) show("Popup blocked. Use same-tab mode.");
+    }
+  }
+
+  function previous() {
+    if (state.index <= 0) return show("Already at #1.");
+    state.index -= 1;
+    save();
+    render();
+    show(`Moved back to #${state.index + 1}.`);
+  }
+
+  function jumpTo() {
+    const total = state.urls.length;
+    const n = Number(prompt(`Jump to which link? 1-${total}`, String(Math.min(state.index + 1, total))));
+    if (!Number.isInteger(n) || n < 1 || n > total) return show(`Enter a number from 1 to ${total}.`);
+    state.index = n - 1;
+    save();
+    render();
+    show(`Jumped to #${n}.`);
+  }
+
+  function reset() {
+    if (!confirm("Reset progress to link #1?")) return;
+    state.index = 0;
+    save();
+    render();
+    show("Reset to #1.");
+  }
+
+  async function copyText(text, msg) {
+    try {
+      await navigator.clipboard.writeText(text);
+      show(msg);
+    } catch(e) {
+      $("backupBox").value = text;
+      $("backupBox").focus();
+      $("backupBox").select();
+      show("Copy blocked. Text placed in backup box.");
+    }
+  }
+
+  function backupText() {
+    return JSON.stringify({ app: "Mass Link Queue", version: 2, exportedAt: new Date().toISOString(), state }, null, 2);
+  }
+
+  function exportBackup() {
+    const text = backupText();
+    $("backupBox").value = text;
+    const blob = new Blob([text], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    const stamp = new Date().toISOString().slice(0,19).replace(/[:T]/g, "-");
+    a.href = url;
+    a.download = `mass-link-queue-backup-${stamp}.json`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+    show("Backup exported.");
+  }
+
+  function restoreBackup() {
+    try {
+      const parsed = JSON.parse($("backupBox").value);
+      const incoming = parsed.state || parsed;
+      if (!incoming || !Array.isArray(incoming.urls)) throw new Error("bad backup");
+      if (state.urls.length && !confirm("Replace current queue with this backup?")) return;
+      state.urls = incoming.urls.map(normalize).filter(Boolean);
+      state.index = Math.max(0, Math.min(Number(incoming.index || 0), state.urls.length));
+      save();
+      render();
+      show("Backup restored.");
+    } catch(e) {
+      show("Invalid backup text.");
+    }
+  }
+
+  $("openNext").onclick = openNext;
+  $("prev").onclick = previous;
+  $("jump").onclick = jumpTo;
+  $("reset").onclick = reset;
+  $("copyCurrent").onclick = () => {
+    if (!state.urls.length || state.index >= state.urls.length) return;
+    copyText(state.urls[state.index], "Current link copied.");
+  };
+  $("importReset").onclick = () => importQueue(true);
+  $("append").onclick = () => importQueue(false);
+  $("sample").onclick = () => {
+    $("importBox").value = sampleLinks.join("\n");
+    show("Test links loaded. Tap Import & Reset.");
+  };
+  $("sameTab").onchange = e => {
+    settings.sameTab = e.target.checked;
+    saveSettings();
+    show(settings.sameTab ? "Same-tab mode on." : "New-tab mode on.");
+  };
+  $("exportBackup").onclick = exportBackup;
+  $("copyBackup").onclick = () => copyText(backupText(), "Backup copied.");
+  $("restoreBackup").onclick = restoreBackup;
+  $("clearAll").onclick = () => {
+    if (!confirm("Clear queue and position from this browser?")) return;
+    localStorage.removeItem(KEY);
+    state = { urls: [], index: 0, updatedAt: new Date().toISOString() };
+    render();
+    show("Cleared.");
+  };
+
+  load();
+  render();
+})();
+</script>
+</body>
+</html>
