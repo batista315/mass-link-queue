@@ -52,7 +52,7 @@ details{margin-top:4px}summary{cursor:pointer;font-weight:850;padding:8px 0;list
 <label class="row"><span class="small"><b>Backup reminder</b><br>Reminds you every 100 opens to save a backup file.</span><input type="checkbox" id="backupReminder" checked></label>
 <div class="batchWrap" id="batchWrap">
 <label class="row"><span class="small"><b>Batch mode</b><br>When enabled, Open Next opens the next set of links.</span><input type="checkbox" id="batchMode"></label>
-<div class="batchChild" id="batchChild"><div class="small"><b>Batch size</b></div><input id="batchSize" type="number" min="1" max="100" step="1" inputmode="numeric" placeholder="Enter batch size"></div>
+<div class="batchChild" id="batchChild"><div class="small"><b>Batch size</b></div><input id="batchSize" type="number" min="1" max="100" step="1" inputmode="numeric" placeholder="Enter batch size"><div class="small" style="margin-top:8px;">Desktop tip: if your browser opens only one tab, allow popups for this site or use Copy Batch.</div></div>
 </div>
 </div>
 </section>
@@ -90,13 +90,12 @@ details{margin-top:4px}summary{cursor:pointer;font-weight:850;padding:8px 0;list
 <div class="small" style="margin-top:10px">This clears only this browser’s saved queue. It does not touch any backup files you saved.</div>
 </details></section>
 
-<div class="small">Install: open this page in Safari → Share → Add to Home Screen.</div>
 </div>
 <div class="toast" id="toast"></div>
 
 <script>
 (() => {
-const APP_VERSION="2.6", KEY="massLinkQueue.v2", SETTINGS_KEY="massLinkQueue.settings.v2";
+const APP_VERSION="2.7", KEY="massLinkQueue.v2", SETTINGS_KEY="massLinkQueue.settings.v2";
 let state={urls:[],index:0,history:[],lastBackupAtIndex:0,lastBackupAt:null,lastImportStats:null,updatedAt:new Date().toISOString(),version:APP_VERSION};
 let settings={sameTab:true,backupReminder:true,backupEvery:100,batchSize:"",batchMode:false};
 const $=id=>document.getElementById(id);
@@ -242,10 +241,36 @@ function openBatch(){
   if(!state.urls.length||state.index>=state.urls.length)return;
   if(!requireBatchSize())return;
   const batch=getNextBatch();if(!batch.length)return;
-  const before=state.index,openedAt=new Date().toISOString();let opened=0;
-  for(let i=0;i<batch.length;i++){const w=window.open(batch[i],"_blank","noopener,noreferrer");if(w){opened++;recordOpened(batch[i],before+i+1,openedAt)}else break}
-  if(!opened)return show("Browser blocked the batch. Allow popups/tabs for this site or use Copy Batch.",4500);
-  state.index+=opened;save();render();maybeBackupReminder();show(opened<batch.length?`Opened ${opened}/${batch.length}. Browser blocked the rest.`:`Opened ${opened} link(s).`,opened<batch.length?4500:2600)
+
+  const before=state.index,openedAt=new Date().toISOString();
+
+  // Desktop behavior: advance and save BEFORE opening tabs.
+  // Some browsers only allow one popup/tab per gesture or shift focus early.
+  // Saving first prevents progress from getting stuck at the old position.
+  for(let i=0;i<batch.length;i++){
+    recordOpened(batch[i],before+i+1,openedAt);
+  }
+  state.index+=batch.length;
+  save();
+  render();
+  maybeBackupReminder();
+
+  let opened=0;
+  for(let i=0;i<batch.length;i++){
+    const w=window.open(batch[i],"_blank");
+    if(w){opened++;}
+    else{break;}
+  }
+
+  if(!opened){
+    show("Browser blocked the batch. Progress was advanced; use Previous Batch if needed, or use Copy Batch.",5200);
+    return;
+  }
+  if(opened<batch.length){
+    show(`Opened ${opened}/${batch.length}. Progress advanced by ${batch.length}; use Previous Batch if needed.`,5200);
+  }else{
+    show(`Opened ${opened} link(s).`);
+  }
 }
 function openMain(){settings.batchMode?openBatch():openSingle()}
 function previous(){if(state.index<=0)return show("Already at #1.");state.index--;save();render();show(`Previous. Next link is #${state.index+1}.`)}
