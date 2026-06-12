@@ -11,11 +11,11 @@
 .wrap{max-width:760px;margin:0 auto;padding:16px 0 32px}h1{margin:0;font-size:30px;line-height:1.05;letter-spacing:-.04em}.sub,.small{color:var(--muted);font-size:13px;line-height:1.35}.sub{margin:8px 0 14px;font-size:14px}.badges{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 0}.pill{padding:6px 10px;border-radius:999px;background:rgba(32,36,45,.9);border:1px solid var(--border);color:var(--muted);font-size:12px;line-height:1}
 .card{background:rgba(23,26,33,.96);border:1px solid var(--border);border-radius:18px;padding:16px;margin:12px 0;box-shadow:0 10px 30px rgba(0,0,0,.35)}.progressTop{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;margin-bottom:12px}.bigProgress{font-size:46px;font-weight:850;line-height:1;letter-spacing:-.05em}.nextUp{color:var(--muted);font-size:18px;line-height:1.25;margin-top:8px}.percent{color:var(--muted);font-size:18px;line-height:1.25;margin-bottom:4px;font-variant-numeric:tabular-nums}.bar{height:14px;background:#0b0d12;border:1px solid var(--border);border-radius:999px;overflow:hidden;margin-bottom:14px}.fill{height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width .18s}
 .preview{background:#0b0d12;border:1px solid var(--border);border-radius:14px;margin:12px 0;overflow:hidden}.previewHead{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 12px 0;color:var(--muted);font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.06em}.previewBody{word-break:break-all;min-height:48px;padding:10px 12px 12px;font-size:14px;line-height:1.35;color:#d8dee8;white-space:pre-wrap}
-button,textarea,input{font:inherit}button{width:100%;min-height:52px;border:0;border-radius:16px;background:var(--panel2);color:var(--text);font-weight:760;font-size:16px;padding:12px 14px;margin-top:10px;-webkit-tap-highlight-color:transparent}button:disabled{opacity:.42}button:active:not(:disabled){transform:translateY(1px);opacity:.88}.primary{min-height:72px;font-size:22px;background:linear-gradient(135deg,#198cff,#7c3aed)}.good{background:rgba(88,214,141,.18);border:1px solid rgba(88,214,141,.35)}.warn{background:rgba(255,209,102,.16);border:1px solid rgba(255,209,102,.35)}.danger{background:rgba(255,92,122,.16);border:1px solid rgba(255,92,122,.36)}
+button,textarea,input,select{font:inherit}button{width:100%;min-height:52px;border:0;border-radius:16px;background:var(--panel2);color:var(--text);font-weight:760;font-size:16px;padding:12px 14px;margin-top:10px;-webkit-tap-highlight-color:transparent}button:disabled{opacity:.42}button:active:not(:disabled){transform:translateY(1px);opacity:.88}.primary{min-height:72px;font-size:22px;background:linear-gradient(135deg,#198cff,#7c3aed)}.good{background:rgba(88,214,141,.18);border:1px solid rgba(88,214,141,.35)}.warn{background:rgba(255,209,102,.16);border:1px solid rgba(255,209,102,.35)}.danger{background:rgba(255,92,122,.16);border:1px solid rgba(255,92,122,.36)}
 .thin{width:auto;min-height:32px;margin:0;padding:6px 10px;border-radius:999px;font-size:12px;font-weight:800;background:rgba(74,163,255,.14);border:1px solid rgba(74,163,255,.32);flex:0 0 auto}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-textarea{width:100%;min-height:180px;resize:vertical;border:1px solid var(--border);border-radius:14px;background:#0b0d12;color:var(--text);padding:12px;line-height:1.35;outline:none;margin-top:10px;white-space:pre;overflow-wrap:normal;overflow-x:auto}input[type=file],input[type=number]{width:100%;background:#0b0d12;border:1px solid var(--border);border-radius:14px;padding:12px;color:var(--text);margin-top:10px;min-height:52px}input[type=file]{color:var(--muted)}
+textarea{width:100%;min-height:180px;resize:vertical;border:1px solid var(--border);border-radius:14px;background:#0b0d12;color:var(--text);padding:12px;line-height:1.35;outline:none;margin-top:10px;white-space:pre;overflow-wrap:normal;overflow-x:auto}input[type=file],input[type=number],input[type=text]{width:100%;background:#0b0d12;border:1px solid var(--border);border-radius:14px;padding:12px;color:var(--text);margin-top:10px;min-height:52px}input[type=file]{color:var(--muted)}
 details{margin-top:4px}summary{cursor:pointer;font-weight:850;padding:8px 0;list-style:none}summary::-webkit-details-marker{display:none}.row{display:flex;justify-content:space-between;align-items:center;gap:12px;background:var(--panel2);border:1px solid var(--border);border-radius:14px;padding:12px;margin-top:10px}input[type=checkbox]{width:24px;height:24px;accent-color:var(--accent);flex:0 0 auto}.batchWrap{border-radius:14px;overflow:hidden}.batchWrap .row{margin-top:10px}.batchWrap.active{background:rgba(74,163,255,.05);border:1px solid rgba(74,163,255,.28);border-radius:14px;margin-top:10px}.batchWrap.active .row{margin-top:0;border:0;border-radius:14px 14px 0 0;background:transparent}.batchChild{display:none;padding:0 12px 12px;background:transparent}.batchChild.show{display:block}.batchChild input.invalid{border-color:var(--danger);box-shadow:0 0 0 2px rgba(255,92,122,.25)}.batchNav{display:none}.batchNav.show{display:grid}
-.toast{position:fixed;left:14px;right:14px;bottom:calc(14px + env(safe-area-inset-bottom));max-width:760px;margin:0 auto;background:rgba(22,24,31,.98);border:1px solid var(--border);border-radius:16px;padding:12px 14px;transform:translateY(18px);opacity:0;visibility:hidden;pointer-events:none;transition:transform .2s,opacity .2s,visibility .2s;z-index:10;box-shadow:0 10px 30px rgba(0,0,0,.35);line-height:1.35}.toast.show{transform:translateY(0);opacity:1;visibility:visible;pointer-events:auto}.sep{height:1px;background:var(--border);margin:14px 0}.miniList{max-height:220px;overflow:auto;background:#0b0d12;border:1px solid var(--border);border-radius:14px;padding:10px;margin-top:10px;font-size:13px;line-height:1.4}.miniItem{display:grid;grid-template-columns:48px 1fr;gap:8px;padding:6px 0;border-bottom:1px solid rgba(48,54,66,.5)}.miniItem:last-child{border-bottom:0}.num{color:var(--muted);font-variant-numeric:tabular-nums}.url{word-break:break-all;color:#d8dee8}.empty{color:var(--muted);padding:8px 0}
+.toast{position:fixed;left:14px;right:14px;bottom:calc(14px + env(safe-area-inset-bottom));max-width:760px;margin:0 auto;background:rgba(22,24,31,.98);border:1px solid var(--border);border-radius:16px;padding:12px 14px;transform:translateY(18px);opacity:0;visibility:hidden;pointer-events:none;transition:transform .2s,opacity .2s,visibility .2s;z-index:10;box-shadow:0 10px 30px rgba(0,0,0,.35);line-height:1.35}.toast.show{transform:translateY(0);opacity:1;visibility:visible;pointer-events:auto}.sep{height:1px;background:var(--border);margin:14px 0}.miniList{max-height:220px;overflow:auto;background:#0b0d12;border:1px solid var(--border);border-radius:14px;padding:10px;margin-top:10px;font-size:13px;line-height:1.4}.miniList.compact5{max-height:205px}.miniList.fadeTop{box-shadow:inset 0 8px 8px -8px rgba(243,245,247,.30)}.miniList.fadeBottom{box-shadow:inset 0 -8px 8px -8px rgba(243,245,247,.30)}.miniList.fadeTop.fadeBottom{box-shadow:inset 0 8px 8px -8px rgba(243,245,247,.30),inset 0 -8px 8px -8px rgba(243,245,247,.30)}.miniList::-webkit-scrollbar,.previewBody::-webkit-scrollbar{width:3px;height:3px}.miniList::-webkit-scrollbar-track,.previewBody::-webkit-scrollbar-track{background:transparent}.miniList::-webkit-scrollbar-thumb,.previewBody::-webkit-scrollbar-thumb{background:rgba(174,182,194,.55);border-radius:999px}.previewBody.scrollCap{max-height:112px;overflow:auto}.previewBody.scrollCap.fadeTop{box-shadow:inset 0 8px 8px -8px rgba(243,245,247,.28)}.previewBody.scrollCap.fadeBottom{box-shadow:inset 0 -8px 8px -8px rgba(243,245,247,.28)}.previewBody.scrollCap.fadeTop.fadeBottom{box-shadow:inset 0 8px 8px -8px rgba(243,245,247,.28),inset 0 -8px 8px -8px rgba(243,245,247,.28)}.miniItem{display:grid;grid-template-columns:52px 1fr;gap:8px;padding:6px 0;border-bottom:1px solid rgba(48,54,66,.5)}.miniItem:last-child{border-bottom:0}.num{color:var(--muted);font-variant-numeric:tabular-nums}.url{word-break:break-all;color:#d8dee8}.empty{color:var(--muted);padding:8px 0}.filterBar{display:flex;gap:8px;margin-top:10px}.filterBtn{min-height:36px;margin:0;border-radius:999px;padding:8px 10px;font-size:13px;background:#0b0d12;border:1px solid var(--border);color:var(--muted)}.filterBtn.active{background:rgba(74,163,255,.16);border-color:rgba(74,163,255,.45);color:var(--text)}select{width:100%;background:#0b0d12;border:1px solid var(--border);border-radius:14px;padding:12px;color:var(--text);margin-top:10px;min-height:52px}.returnCurrent{display:none}.returnCurrent.show{display:block}
 @media(max-width:460px){h1{font-size:28px}.bigProgress{font-size:40px}.nextUp,.percent{font-size:17px}}
 </style>
 </head>
@@ -50,6 +50,7 @@ details{margin-top:4px}summary{cursor:pointer;font-weight:850;padding:8px 0;list
 <div style="margin-top:14px">
 <label class="row"><span class="small"><b>Open single links in same tab</b><br>Best for mobile single-link mode. Batch mode always uses new tabs/windows.</span><input type="checkbox" id="sameTab" checked></label>
 <label class="row"><span class="small"><b>Backup reminder</b><br>Reminds you every 100 opens to save a backup file.</span><input type="checkbox" id="backupReminder" checked></label>
+<label class="row"><span class="small"><b>View</b><br>Auto uses mobile here. Mobile/Desktop override updates the URL.</span><select id="viewMode"><option value="auto">Auto</option><option value="mobile">Mobile</option><option value="desktop">Desktop</option></select></label>
 <div class="batchWrap" id="batchWrap">
 <label class="row"><span class="small"><b>Batch mode</b><br>When enabled, Open Next opens the next set of links.</span><input type="checkbox" id="batchMode"></label>
 <div class="batchChild" id="batchChild"><div class="small"><b>Batch size</b></div><input id="batchSize" type="number" min="1" max="100" step="1" inputmode="numeric" placeholder="Enter batch size"><div class="small" style="margin-top:8px;">Desktop tip: if your browser opens only one tab, allow popups for this site or use Copy Batch.</div></div>
@@ -60,29 +61,37 @@ details{margin-top:4px}summary{cursor:pointer;font-weight:850;padding:8px 0;list
 <section class="card"><details><summary>Import / Add Links</summary>
 <div class="small">Paste one link per line. Blank lines are ignored. Append removes exact duplicates automatically.</div>
 <textarea id="importBox" placeholder="https://x.com/X&#10;https://x.com/Apple&#10;https://www.tiktok.com/@example/video/123"></textarea>
+<div class="small" style="margin-top:10px"><b>Or import links from file</b></div>
+<input id="linkImportFile" type="file" accept=".txt,.csv,.json,.md,.html,.htm,.log">
 <div class="grid2"><button class="good" id="importReset">Import & Reset</button><button id="append">Append New Only</button></div>
 <div class="previewBody" style="background:#0b0d12;border:1px solid var(--border);border-radius:14px;margin-top:10px" id="lastImportStats">No import yet.</div>
 </details></section>
 
-<section class="card"><details><summary>Current Saved Queue</summary>
+<section class="card"><details id="currentQueueDetails"><summary>Current Saved Queue</summary>
 <div class="small">This is the queue currently saved in your browser. It reloads from storage automatically when you reopen the app.</div>
-<div class="miniList" id="queuePreview"><div class="empty">No queue loaded.</div></div>
+<input id="queueSearch" type="text" placeholder="Search queue...">
+<div class="filterBar"><button class="filterBtn active" id="filterAll">All</button><button class="filterBtn" id="filterRemaining">Remaining</button><button class="filterBtn" id="filterOpened">Opened</button></div>
+<div class="small" id="queueSearchStatus" style="margin-top:8px">Showing all links.</div>
+<div class="miniList compact5" id="queuePreview"><div class="empty">No queue loaded.</div></div>
+<button class="thin returnCurrent" id="returnCurrent" style="margin-top:10px">↺ Current</button>
 <div class="grid2"><button id="copyQueue">Copy Full Queue</button><button id="exportQueueTxt">Export Queue .txt</button></div>
 <button class="warn" id="cleanQueue">Clean Queue: Remove Duplicates</button>
 </details></section>
 
 <section class="card"><details><summary>History</summary>
 <div class="small">Last opened links on this device.</div>
-<div class="miniList" id="historyPreview"><div class="empty">Nothing opened yet.</div></div>
+<div class="miniList compact5" id="historyPreview"><div class="empty">Nothing opened yet.</div></div>
 </details></section>
 
 <section class="card"><details><summary>Backup / Restore</summary>
-<div class="small">A backup JSON file contains your full queue, exact position, and settings. Save one occasionally so Safari storage cannot ruin your day.</div>
+<div class="small">A backup JSON file contains your full queue, exact position, and settings.</div>
 <div class="grid2"><button class="good" id="exportBackup">Save Backup File</button><button id="copyBackup">Copy Backup Text</button></div>
 <textarea id="backupBox" placeholder="Backup JSON appears here, or paste backup JSON here to restore."></textarea>
 <button class="good" id="restoreBackupText">Restore From Backup Text</button>
 <div class="sep"></div><div class="small">Or restore from a saved backup file:</div>
 <input id="backupFile" type="file" accept="application/json,.json">
+<div class="sep"></div><div class="small"><b>Automatic Checkpoints</b><br>Local quick-undo snapshots before risky actions. Latest 5 only.</div>
+<div class="miniList compact5" id="checkpointList"><div class="empty">No checkpoints yet.</div></div>
 </details></section>
 
 <section class="card"><details><summary>Danger Zone</summary>
@@ -95,13 +104,19 @@ details{margin-top:4px}summary{cursor:pointer;font-weight:850;padding:8px 0;list
 
 <script>
 (() => {
-const APP_VERSION="2.7", KEY="massLinkQueue.v2", SETTINGS_KEY="massLinkQueue.settings.v2";
+const APP_VERSION="2.10", KEY="massLinkQueue.v2", SETTINGS_KEY="massLinkQueue.settings.v2", CHECKPOINT_KEY="massLinkQueue.checkpoints.v2";
 let state={urls:[],index:0,history:[],lastBackupAtIndex:0,lastBackupAt:null,lastImportStats:null,updatedAt:new Date().toISOString(),version:APP_VERSION};
-let settings={sameTab:true,backupReminder:true,backupEvery:100,batchSize:"",batchMode:false};
+let settings={sameTab:true,backupReminder:true,backupEvery:100,batchSize:"",batchMode:false,viewMode:"auto",queueFilter:"all"};
+let ui={queueSearch:"",followQueue:true};
 const $=id=>document.getElementById(id);
 
 function show(msg,ms=2600){const t=$("toast");t.textContent=msg;t.classList.add("show");clearTimeout(show.timer);show.timer=setTimeout(()=>t.classList.remove("show"),ms)}
 function canUseStorage(){try{localStorage.setItem("__t","1");localStorage.removeItem("__t");return true}catch(e){return false}}
+function getUrlView(){const v=new URLSearchParams(location.search).get("view");return v==="mobile"||v==="desktop"?v:"auto"}
+function setUrlView(mode){const u=new URL(location.href);if(mode==="auto")u.searchParams.delete("view");else u.searchParams.set("view",mode);history.replaceState(null,"",u.toString())}
+function cleanFileBase(name){return String(name||"").replace(/\.[^.]+$/,"").replace(/[^a-z0-9_-]+/gi,"_").replace(/^_+|_+$/g,"")||"links"}
+function backupFilename(){const d=new Date(),pad=n=>String(n).padStart(2,"0");return `MLQ_${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}_${pad(d.getHours())}${pad(d.getMinutes())}_backup.json`}
+function extractUrls(text){const found=String(text||"").match(/https?:\/\/[^\s<>"']+/gi)||[];return found.map(u=>u.replace(/[),.;]+$/g,""))}
 function normalize(s){s=String(s||"").trim();if(!s)return"";if(!/^https?:\/\//i.test(s))s="https://"+s;return s}
 function parseLinks(t){return String(t||"").split(/\r?\n/).map(normalize).filter(Boolean)}
 function canon(u){return normalize(u)}
@@ -110,6 +125,7 @@ function saveSettings(){localStorage.setItem(SETTINGS_KEY,JSON.stringify(setting
 function load(){
   try{const raw=localStorage.getItem(KEY);if(raw){const p=JSON.parse(raw);if(Array.isArray(p.urls)){state={...state,...p,urls:p.urls.map(normalize).filter(Boolean),index:Math.max(0,Math.min(Number(p.index||0),p.urls.length)),history:Array.isArray(p.history)?p.history:[],version:APP_VERSION};delete state.lastOpened}}}catch(e){}
   try{const raw=localStorage.getItem(SETTINGS_KEY);if(raw)settings={...settings,...JSON.parse(raw)}}catch(e){}
+  const urlView=getUrlView();if(urlView!=="auto")settings.viewMode=urlView;
   if(state.index>state.urls.length)state.index=state.urls.length;if(!Array.isArray(state.history))state.history=[];
 }
 function fmtDate(iso){if(!iso)return"No backup yet";try{return new Date(iso).toLocaleString()}catch(e){return"Unknown"}}
@@ -165,10 +181,13 @@ function renderStats(){
   $("percentText").textContent=`${pct.toFixed(total?1:0)}%`;
   $("fill").style.width=`${pct}%`;
   $("previewBody").textContent=previewText();
+  $("previewBody").classList.add("scrollCap");
+  setTimeout(()=>updateScrollFades($("previewBody")),0);
 
   $("sameTab").checked=!!settings.sameTab;
   $("backupReminder").checked=!!settings.backupReminder;
   $("batchMode").checked=!!settings.batchMode;
+  $("viewMode").value=settings.viewMode||"auto";
 
   const batchEl=$("batchSize");
   if(document.activeElement!==batchEl)batchEl.value=String(settings.batchSize??"");
@@ -203,29 +222,80 @@ function renderStats(){
   $("backupPill").textContent=state.lastBackupAt?`Last backup: ${fmtDate(state.lastBackupAt)}`:"No backup yet";
   if(state.lastImportStats){const s=state.lastImportStats;$("lastImportStats").textContent=`${s.mode}\nPasted: ${s.pasted}\nBlank/invalid skipped: ${s.invalid}\nDuplicates skipped: ${s.duplicates}\nActually added: ${s.added}\nQueue size: ${state.urls.length}`}else $("lastImportStats").textContent="No import yet.";
 }
+function queueMatches(url,i){
+  const q=String(ui.queueSearch||"").trim().toLowerCase();
+  const filter=settings.queueFilter||"all";
+  if(filter==="remaining"&&i<state.index)return false;
+  if(filter==="opened"&&i>=state.index)return false;
+  if(q&&!String(url).toLowerCase().includes(q))return false;
+  return true;
+}
+function updateFilterButtons(){
+  [["filterAll","all"],["filterRemaining","remaining"],["filterOpened","opened"]].forEach(([id,val])=>$(id).classList.toggle("active",(settings.queueFilter||"all")===val));
+}
+function updateScrollFades(el){
+  if(!el)return;
+  const top=el.scrollTop>1;
+  const bottom=el.scrollTop+el.clientHeight<el.scrollHeight-1;
+  el.classList.toggle("fadeTop",top);
+  el.classList.toggle("fadeBottom",bottom);
+}
+function currentRowVisible(){
+  const box=$("queuePreview"),row=box&&box.querySelector(`[data-index="${state.index}"]`);
+  if(!box||!row)return true;
+  const b=box.getBoundingClientRect(),r=row.getBoundingClientRect();
+  return r.top>=b.top&&r.bottom<=b.bottom;
+}
+function updateReturnCurrent(){
+  const btn=$("returnCurrent");
+  if(!btn)return;
+  btn.classList.toggle("show",!!state.urls.length&&!currentRowVisible());
+}
+function scrollQueueToCurrent(force=false){
+  const box=$("queuePreview"),row=box&&box.querySelector(`[data-index="${state.index}"]`);
+  if(!box||!row)return;
+  if(force||ui.followQueue){
+    row.scrollIntoView({block:"center"});
+    ui.followQueue=false;
+    setTimeout(()=>{updateScrollFades(box);updateReturnCurrent()},0);
+  }
+}
+function markQueueMoved(){ui.followQueue=true}
 function renderQueuePreview(){
-  const box=$("queuePreview");if(!state.urls.length){box.innerHTML='<div class="empty">No queue loaded.</div>';return}
-  const total=state.urls.length,start=Math.max(0,Math.min(state.index-8,total-25)),end=Math.min(total,start+25);let html="";
-  if(start>0)html+=`<div class="empty">… ${start} earlier links hidden …</div>`;
-  for(let i=start;i<end;i++){const marker=i<state.index?"✓":(i===state.index?"→":"");html+=`<div class="miniItem"><div class="num">${marker} #${i+1}</div><div class="url">${escapeHtml(state.urls[i])}</div></div>`}
-  if(end<total)html+=`<div class="empty">… ${total-end} later links hidden …</div>`;box.innerHTML=html;
+  const box=$("queuePreview");updateFilterButtons();
+  if(!state.urls.length){box.innerHTML='<div class="empty">No queue loaded.</div>';$("queueSearchStatus").textContent="Showing 0 links.";updateScrollFades(box);updateReturnCurrent();return}
+  const matches=[];
+  for(let i=0;i<state.urls.length;i++)if(queueMatches(state.urls[i],i))matches.push(i);
+  const q=String(ui.queueSearch||"").trim();
+  const filter=settings.queueFilter||"all";
+  const label=filter==="remaining"?" remaining":filter==="opened"?" opened":"";
+  $("queueSearchStatus").textContent=q?`Showing ${matches.length}${label} matching link${matches.length===1?"":"s"}.`:`Showing ${matches.length}${label} link${matches.length===1?"":"s"}.`;
+  if(!matches.length){box.innerHTML='<div class="empty">No matching links.</div>';updateScrollFades(box);updateReturnCurrent();return}
+  box.innerHTML=matches.map(i=>{const marker=i<state.index?"✓":(i===state.index?"→":"");return `<div class="miniItem" data-index="${i}"><div class="num">${marker} #${i+1}</div><div class="url">${escapeHtml(state.urls[i])}</div></div>`}).join("");
+  setTimeout(()=>{scrollQueueToCurrent(false);updateScrollFades(box);updateReturnCurrent()},0);
 }
 function renderHistory(){
   const box=$("historyPreview"),hist=state.history||[];if(!hist.length){box.innerHTML='<div class="empty">Nothing opened yet.</div>';return}
-  box.innerHTML=hist.slice(0,50).map(h=>`<div class="miniItem"><div class="num">#${h.number||"?"}</div><div><div class="url">${escapeHtml(h.url||"")}</div><div class="small">${escapeHtml(fmtDate(h.openedAt))}</div></div></div>`).join("");
+  box.innerHTML=hist.slice(0,5).map(h=>`<div class="miniItem"><div class="num">#${h.number||"?"}</div><div><div class="url">${escapeHtml(h.url||"")}</div><div class="small">${escapeHtml(fmtDate(h.openedAt))}</div></div></div>`).join("");
 }
-function render(){renderStats();renderQueuePreview();renderHistory()}
+function render(){renderStats();renderQueuePreview();renderHistory();renderCheckpoints()}
 
+function loadCheckpoints(){try{const raw=localStorage.getItem(CHECKPOINT_KEY);const arr=raw?JSON.parse(raw):[];return Array.isArray(arr)?arr:[]}catch(e){return[]}}
+function saveCheckpoints(arr){localStorage.setItem(CHECKPOINT_KEY,JSON.stringify(arr.slice(0,5)))}
+function makeSnapshot(label){return{label,createdAt:new Date().toISOString(),state:JSON.parse(JSON.stringify(state)),settings:JSON.parse(JSON.stringify(settings))}}
+function createCheckpoint(label){if(!state.urls.length)return;const arr=loadCheckpoints();arr.unshift(makeSnapshot(label));saveCheckpoints(arr)}
+function restoreCheckpoint(idx){const arr=loadCheckpoints(),cp=arr[idx];if(!cp)return;if(!confirm(`Restore checkpoint: ${cp.label}? This replaces the current queue state.`))return;state={...state,...cp.state,version:APP_VERSION};settings={...settings,...cp.settings};save();saveSettings();markQueueMoved();render();show(`Restored checkpoint: ${cp.label}.`)}
+function renderCheckpoints(){const box=$("checkpointList");if(!box)return;const arr=loadCheckpoints();if(!arr.length){box.innerHTML='<div class="empty">No checkpoints yet.</div>';return}box.innerHTML=arr.map((cp,i)=>`<div class="miniItem"><div class="num">${i+1}</div><div><div class="url">${escapeHtml(cp.label||"Checkpoint")}</div><div class="small">${escapeHtml(fmtDate(cp.createdAt))}</div><button class="thin" style="margin-top:8px" data-cp="${i}">Restore</button></div></div>`).join("");box.querySelectorAll("[data-cp]").forEach(b=>b.onclick=()=>restoreCheckpoint(Number(b.dataset.cp)))}
 function importQueue(replace){
   const raw=$("importBox").value,rawLines=String(raw||"").split(/\r?\n/),parsed=parseLinks(raw),invalid=rawLines.length-parsed.length;if(!parsed.length)return show("Paste at least one link first.");
-  if(replace){if(state.urls.length&&!confirm("Replace current queue and restart at link #1?"))return;const r=uniqueLinksPreserveOrder(parsed);state.urls=r.unique;state.index=0;state.history=[];state.lastImportStats={mode:"Import & Reset",pasted:parsed.length,invalid:Math.max(0,invalid),duplicates:r.duplicates,added:r.unique.length};save();render();show(`Imported ${r.unique.length}. Duplicates skipped: ${r.duplicates}.`)}
-  else{const r=dedupeAppend(state.urls,parsed);state.urls=state.urls.concat(r.added);state.lastImportStats={mode:"Append New Only",pasted:parsed.length,invalid:Math.max(0,invalid),duplicates:r.duplicates,added:r.added.length};save();render();show(`Added ${r.added.length}. Duplicates skipped: ${r.duplicates}.`)}
+  if(replace){if(state.urls.length&&!confirm("Replace current queue and restart at link #1?"))return;if(state.urls.length)createCheckpoint("Before Replace");const r=uniqueLinksPreserveOrder(parsed);state.urls=r.unique;state.index=0;state.history=[];state.lastImportStats={mode:"Import & Reset",pasted:parsed.length,invalid:Math.max(0,invalid),duplicates:r.duplicates,added:r.unique.length};save();markQueueMoved();render();show(`Imported ${r.unique.length}. Duplicates skipped: ${r.duplicates}.`)}
+  else{if(state.urls.length)createCheckpoint("Before Append");const r=dedupeAppend(state.urls,parsed);state.urls=state.urls.concat(r.added);state.lastImportStats={mode:"Append New Only",pasted:parsed.length,invalid:Math.max(0,invalid),duplicates:r.duplicates,added:r.added.length};save();render();show(`Added ${r.added.length}. Duplicates skipped: ${r.duplicates}.`)}
 }
 function maybeBackupReminder(){if(!settings.backupReminder||state.index===0)return;const every=Number(settings.backupEvery||100),last=Number(state.lastBackupAtIndex||0);if(state.index%every===0&&state.index!==last)show(`You opened ${state.index} links. Consider saving a backup file.`,4600)}
 function recordOpened(url,number,openedAt){state.history=[{url,number,openedAt},...(state.history||[])].slice(0,100)}
 
 function openSingle(){
-  if(!state.urls.length||state.index>=state.urls.length)return;const url=state.urls[state.index],num=state.index+1,openedAt=new Date().toISOString();recordOpened(url,num,openedAt);state.index++;save();render();maybeBackupReminder();
+  if(!state.urls.length||state.index>=state.urls.length)return;const url=state.urls[state.index],num=state.index+1,openedAt=new Date().toISOString();recordOpened(url,num,openedAt);state.index++;save();markQueueMoved();render();maybeBackupReminder();
   if(settings.sameTab)window.location.href=url;else{const w=window.open(url,"_blank","noopener,noreferrer");if(!w)show("Popup blocked. Use same-tab mode.")}
 }
 function requireBatchSize(){
@@ -252,6 +322,7 @@ function openBatch(){
   }
   state.index+=batch.length;
   save();
+  markQueueMoved();
   render();
   maybeBackupReminder();
 
@@ -273,34 +344,35 @@ function openBatch(){
   }
 }
 function openMain(){settings.batchMode?openBatch():openSingle()}
-function previous(){if(state.index<=0)return show("Already at #1.");state.index--;save();render();show(`Previous. Next link is #${state.index+1}.`)}
-function nextOnly(){if(!state.urls.length||state.index>=state.urls.length)return;state.index++;save();render();show(state.index>=state.urls.length?"Moved to end of queue.":`Skipped. Next link is #${state.index+1}.`)}
+function previous(){if(state.index<=0)return show("Already at #1.");state.index--;save();markQueueMoved();render();show(`Previous. Next link is #${state.index+1}.`)}
+function nextOnly(){if(!state.urls.length||state.index>=state.urls.length)return;state.index++;save();markQueueMoved();render();show(state.index>=state.urls.length?"Moved to end of queue.":`Skipped. Next link is #${state.index+1}.`)}
 function previousBatch(){
   const info=getBatchInfo();
   if(!info||info.currentStart<=0)return;
   state.index=info.previousStart;
-  save();render();
+  save();markQueueMoved();render();
   show(`Previous batch. Next link is #${state.index+1}.`);
 }
 function nextBatch(){
   const info=getBatchInfo();
   if(!info||info.nextStart>=info.total)return;
   state.index=info.nextStart;
-  save();render();
+  save();markQueueMoved();render();
   show(`Next batch. Next link is #${state.index+1}.`);
 }
-function jumpTo(){const total=state.urls.length;if(!total)return;const input=prompt(`Jump to which link? Enter 1-${total}.`,String(Math.min(state.index+1,total)));if(input===null)return;const n=Number(input);if(!Number.isInteger(n)||n<1||n>total)return show(`Enter a whole number from 1 to ${total}.`);state.index=n-1;save();render();show(`Jumped. Next link is #${n}.`)}
-function restart(){if(!state.urls.length)return;if(!confirm("Restart progress at link #1?"))return;state.index=0;save();render();show("Restarted. Next link is #1.")}
+function jumpTo(){const total=state.urls.length;if(!total)return;const input=prompt(`Jump to which link? Enter 1-${total}.`,String(Math.min(state.index+1,total)));if(input===null)return;const n=Number(input);if(!Number.isInteger(n)||n<1||n>total)return show(`Enter a whole number from 1 to ${total}.`);state.index=n-1;save();markQueueMoved();render();show(`Jumped. Next link is #${n}.`)}
+function restart(){if(!state.urls.length)return;if(!confirm("Restart progress at link #1?"))return;createCheckpoint("Before Restart");state.index=0;save();markQueueMoved();render();show("Restarted. Next link is #1.")}
 async function copyText(text,msg){try{await navigator.clipboard.writeText(text);show(msg)}catch(e){$("backupBox").value=text;$("backupBox").focus();$("backupBox").select();show("Copy blocked. Text placed in backup box.")}}
 function copyPreview(){if(!state.urls.length||state.index>=state.urls.length)return;if(settings.batchMode){if(!requireBatchSize())return;const b=getNextBatch();copyText(b.join("\n"),`Copied next ${b.length} link(s).`)}else copyText(state.urls[state.index],"Current link copied.")}
 function makeBackup(){return JSON.stringify({app:"Mass Link Queue",version:APP_VERSION,exportedAt:new Date().toISOString(),state,settings},null,2)}
-function saveBackupFile(){state.lastBackupAt=new Date().toISOString();state.lastBackupAtIndex=state.index;save();render();const text=makeBackup();$("backupBox").value=text;const blob=new Blob([text],{type:"application/json"}),url=URL.createObjectURL(blob),a=document.createElement("a"),stamp=new Date().toISOString().slice(0,19).replace(/[:T]/g,"-");a.href=url;a.download=`mass-link-queue-backup-${stamp}.json`;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);show("Backup file created. Save it to Files/iCloud.")}
+function saveBackupFile(){state.lastBackupAt=new Date().toISOString();state.lastBackupAtIndex=state.index;save();render();const text=makeBackup();$("backupBox").value=text;const blob=new Blob([text],{type:"application/json"}),url=URL.createObjectURL(blob),a=document.createElement("a"),stamp=new Date().toISOString().slice(0,19).replace(/[:T]/g,"-");a.href=url;a.download=backupFilename();document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);show("Backup file created. Save it to Files/iCloud.")}
 function exportQueueTxt(){if(!state.urls.length)return;const text=state.urls.join("\n"),blob=new Blob([text],{type:"text/plain"}),url=URL.createObjectURL(blob),a=document.createElement("a"),stamp=new Date().toISOString().slice(0,19).replace(/[:T]/g,"-");a.href=url;a.download=`mass-link-queue-links-${stamp}.txt`;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);show("Queue .txt exported.")}
-function restoreFromObject(parsed){const incoming=parsed.state||parsed;if(!incoming||!Array.isArray(incoming.urls))throw new Error("No URLs");if(state.urls.length&&!confirm("Restore this backup and replace your current queue?"))return;const urls=incoming.urls.map(normalize).filter(Boolean);state={...state,...incoming,urls,index:Math.max(0,Math.min(Number(incoming.index||0),urls.length)),history:Array.isArray(incoming.history)?incoming.history:[],version:APP_VERSION};delete state.lastOpened;if(parsed.settings)settings={...settings,...parsed.settings};save();saveSettings();render();show(`Restored ${state.urls.length} links at #${Math.min(state.index+1,state.urls.length||1)}.`)}
+function importLinksFromFile(file){if(!file)return;const ok=/\.(txt|csv|json|md|html?|log)$/i.test(file.name||"");if(!ok){show("Unsupported file type.");$("linkImportFile").value="";return}const r=new FileReader();r.onload=()=>{const urls=extractUrls(String(r.result||""));if(!urls.length){show("No links found in that file.");return}$("importBox").value=urls.join("\n");state.lastImportStats={mode:`Loaded file: ${file.name}`,pasted:urls.length,invalid:0,duplicates:0,added:0};renderStats();show(`Loaded ${urls.length} link(s) from file. Choose Import & Reset or Append New Only.`)};r.readAsText(file)}
+function restoreFromObject(parsed){const incoming=parsed.state||parsed;if(!incoming||!Array.isArray(incoming.urls))throw new Error("No URLs");if(state.urls.length&&!confirm("Restore this backup and replace your current queue?"))return;if(state.urls.length)createCheckpoint("Before Restore");const urls=incoming.urls.map(normalize).filter(Boolean);state={...state,...incoming,urls,index:Math.max(0,Math.min(Number(incoming.index||0),urls.length)),history:Array.isArray(incoming.history)?incoming.history:[],version:APP_VERSION};delete state.lastOpened;if(parsed.settings)settings={...settings,...parsed.settings};save();saveSettings();markQueueMoved();render();show(`Restored ${state.urls.length} links at #${Math.min(state.index+1,state.urls.length||1)}.`)}
 function restoreBackupText(){try{restoreFromObject(JSON.parse($("backupBox").value))}catch(e){show("That backup text doesn't look valid.")}}
 function restoreBackupFile(file){if(!file)return;const r=new FileReader();r.onload=()=>{try{$("backupBox").value=String(r.result||"");restoreFromObject(JSON.parse(String(r.result||"")))}catch(e){show("That backup file doesn't look valid.")}};r.readAsText(file)}
-function cleanQueue(){if(!state.urls.length)return;const old=state.urls.slice(),nextUrl=old[state.index]||null,seen=new Set(),unique=[];let duplicates=0;for(const url of old){const key=canon(url);if(seen.has(key))duplicates++;else{seen.add(key);unique.push(url)}}if(!duplicates)return show("No duplicates found.");if(!confirm(`Remove ${duplicates} duplicate link(s) from the current queue?`))return;state.urls=unique;let newIndex=0,counted=new Set();for(const url of old.slice(0,state.index)){const key=canon(url);if(!counted.has(key)){counted.add(key);newIndex++}}if(nextUrl){const pos=state.urls.findIndex(u=>canon(u)===canon(nextUrl));if(pos>=0)newIndex=Math.min(newIndex,pos)}state.index=Math.max(0,Math.min(newIndex,state.urls.length));state.lastImportStats={mode:"Clean Queue",pasted:old.length,invalid:0,duplicates,added:state.urls.length};save();render();show(`Cleaned queue. Removed ${duplicates} duplicates.`)}
-function clearAll(){if(!confirm("Clear queue and position from this browser? Backup files will not be touched."))return;localStorage.removeItem(KEY);state={urls:[],index:0,history:[],lastBackupAtIndex:0,lastBackupAt:null,lastImportStats:null,updatedAt:new Date().toISOString(),version:APP_VERSION};render();show("Cleared.")}
+function cleanQueue(){if(!state.urls.length)return;const old=state.urls.slice(),nextUrl=old[state.index]||null,seen=new Set(),unique=[];let duplicates=0;for(const url of old){const key=canon(url);if(seen.has(key))duplicates++;else{seen.add(key);unique.push(url)}}if(!duplicates)return show("No duplicates found.");if(!confirm(`Remove ${duplicates} duplicate link(s) from the current queue?`))return;createCheckpoint("Before Clean Queue");state.urls=unique;let newIndex=0,counted=new Set();for(const url of old.slice(0,state.index)){const key=canon(url);if(!counted.has(key)){counted.add(key);newIndex++}}if(nextUrl){const pos=state.urls.findIndex(u=>canon(u)===canon(nextUrl));if(pos>=0)newIndex=Math.min(newIndex,pos)}state.index=Math.max(0,Math.min(newIndex,state.urls.length));state.lastImportStats={mode:"Clean Queue",pasted:old.length,invalid:0,duplicates,added:state.urls.length};save();markQueueMoved();render();show(`Cleaned queue. Removed ${duplicates} duplicates.`)}
+function clearAll(){if(!confirm("Clear queue and position from this browser? Backup files will not be touched."))return;createCheckpoint("Before Clear Queue");localStorage.removeItem(KEY);state={urls:[],index:0,history:[],lastBackupAtIndex:0,lastBackupAt:null,lastImportStats:null,updatedAt:new Date().toISOString(),version:APP_VERSION};render();show("Cleared.")}
 
 $("mainOpen").onclick=openMain;$("previous").onclick=previous;$("nextOnly").onclick=nextOnly;$("previousBatch").onclick=previousBatch;$("nextBatch").onclick=nextBatch;$("jump").onclick=jumpTo;$("restart").onclick=restart;$("copyPreview").onclick=copyPreview;
 $("importReset").onclick=()=>importQueue(true);$("append").onclick=()=>importQueue(false);
@@ -311,6 +383,14 @@ $("batchMode").onchange=e=>{settings.batchMode=e.target.checked;saveSettings();r
 $("batchSize").onchange=e=>{settings.batchSize=e.target.value.trim();saveSettings();render()};
 $("batchSize").oninput=e=>{settings.batchSize=e.target.value;saveSettings();renderStats()};
 $("exportBackup").onclick=saveBackupFile;$("copyBackup").onclick=()=>copyText(makeBackup(),"Backup text copied.");$("restoreBackupText").onclick=restoreBackupText;$("backupFile").onchange=e=>restoreBackupFile(e.target.files&&e.target.files[0]);
+$("linkImportFile").onchange=e=>importLinksFromFile(e.target.files&&e.target.files[0]);
+$("viewMode").onchange=e=>{settings.viewMode=e.target.value;saveSettings();setUrlView(settings.viewMode);show(`View override: ${settings.viewMode}.`)};
+$("queueSearch").oninput=e=>{ui.queueSearch=e.target.value;renderQueuePreview()};
+$("filterAll").onclick=()=>{settings.queueFilter="all";saveSettings();renderQueuePreview()};$("filterRemaining").onclick=()=>{settings.queueFilter="remaining";saveSettings();renderQueuePreview()};$("filterOpened").onclick=()=>{settings.queueFilter="opened";saveSettings();renderQueuePreview()};
+$("queuePreview").onscroll=()=>{ui.followQueue=false;updateScrollFades($("queuePreview"));updateReturnCurrent()};
+$("previewBody").onscroll=()=>updateScrollFades($("previewBody"));
+$("returnCurrent").onclick=()=>scrollQueueToCurrent(true);
+$("currentQueueDetails").ontoggle=()=>{if($("currentQueueDetails").open)setTimeout(()=>scrollQueueToCurrent(true),0)};
 $("clearAll").onclick=clearAll;
 load();render();
 })();
